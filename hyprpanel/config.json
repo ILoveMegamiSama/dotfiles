@@ -1,0 +1,19 @@
+{
+  "bar.customModules.storage.paths": [
+    "/"
+  ],
+  "theme.font.name": "JetBrainsMonoNL Nerd Font Propo",
+  "theme.font.label": "JetBrainsMonoNL Nerd Font Propo Thin",
+  "theme.font.size": "1rem",
+  "theme.bar.floating": true,
+  "bar.autoHide": "fullscreen",
+  "theme.bar.buttons.radius": "20rem",
+  "theme.bar.buttons.workspaces.enableBorder": false,
+  "theme.bar.buttons.dashboard.enableBorder": false,
+  "theme.bar.buttons.enableBorders": true,
+  "theme.matugen": true,
+  "wallpaper.image": "/home/iluvtkl/Downloads/live-wallpaper/2b-fixed-image.png",
+  "theme.bar.transparent": true,
+  "theme.matugen_settings.scheme_type": "neutral",
+  "theme.matugen_settings.variation": "standard_1"
+}

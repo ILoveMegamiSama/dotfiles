@@ -1,0 +1,253 @@
+# --- CẤU HÌNH MÀN HÌNH ---
+monitor=,preferred,auto,1
+
+# --- BIẾN MÔI TRƯỜNG NVIDIA (QUAN TRỌNG NHẤT) ---
+env = LIBVA_DRIVER_NAME,nvidia
+env = XDG_SESSION_TYPE,wayland
+env = GBM_BACKEND,nvidia-drm
+env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = ELECTRON_OZONE_PLATFORM_HINT,wayland
+
+# --- GENERAL ---
+general {
+    gaps_in = 5      # Khoảng cách giữa các cửa sổ với nhau
+    gaps_out = 10     # Khoảng cách từ cửa sổ ra mép màn hình (Giảm cái này!)
+    border_size = 5
+    # ...
+}
+
+# --- DECORATION ---
+decoration {
+    rounding = 5           # Bo tròn góc cửa sổ (cho đẹp)
+    
+    # Cấu hình độ trong suốt
+    active_opacity = 0.85
+    inactive_opacity = 0.6
+
+    # Cấu hình Blur (Làm mờ)
+    blur {
+        enabled = true
+        size = 1            # Độ rộng vùng mờ
+        passes = 1          # Số lần quét mờ (càng cao càng mượt nhưng tốn GPU)
+        vibrancy = 0.1696
+	ignore_opacity = true
+        new_optimizations = true
+        
+        # --- QUAN TRỌNG NHẤT ---
+        # xray = true: Giúp chữ và nội dung "nổi" lên trên lớp Blur. 
+        # Nó giúp Chrome trông đỡ bị đục ngầu, cảm giác như chỉ mờ phần nền.
+        xray = true
+    }
+}
+
+# --- KHỞI ĐỘNG CÙNG HỆ THỐNG ---
+# 1. Bật daemon của swww (Để HyprPanel nhận diện được backend)
+exec-once = swww-daemon --format xrgb
+# 1. Bật HyprPanel (Thanh Taskbar + Dashboard chính)
+exec-once = hyprpanel
+# 2. Bật SwayNC (Trung tâm thông báo - chạy ngầm)
+exec-once = swaync
+# 3. Chạy Video Wallpaper (Đây là cái bạn muốn nhìn thấy)
+# Lưu ý: mpvpaper sẽ chạy đè lên swww
+exec-once = mpvpaper -o "no-audio --loop" '*' /home/iluvtkl/Downloads/live-wallpaper/cartethyia-song-of-the-crystal-city.3840x2160.mp4
+
+# --- SỬA LỖI CON TRỎ CHUỘT ---
+cursor {
+    no_hardware_cursors = true
+}
+
+# --- TOUCHPAD SETTING ---
+input {
+    # ... các cài đặt khác ...
+    
+    touchpad {
+        natural_scroll = true  # true = Đảo ngược (kéo xuống là cuộn xuống)
+        scroll_factor = 1    # (Tùy chọn) Điều chỉnh tốc độ cuộn nếu thấy quá nhanh
+    }
+}
+
+# --- GESTURES ---
+# Cú pháp: gesture = <số_ngón>, <hướng>, <hành động>
+
+# Vuốt 3 ngón ngang để đổi Workspace (Giống Mac/Windows)
+gesture = 3, horizontal, workspace
+
+# (Tùy chọn) Vuốt 3 ngón lên để hiện Overview (nếu bạn có cài plugin hoặc dùng lệnh đặc biệt)
+# gesture = 3, up, exec, rofi -show drun
+# still bug though
+
+# (Tùy chọn) Chụm 3 ngón để đóng cửa sổ (Tính năng mới của hệ thống linh hoạt này)
+# gesture = 3, pinch, killactive
+
+# --- CÁC ỨNG DỤNG KHỞI ĐỘNG CÙNG ---
+# Bo go tieng viet
+# Chỉ định dùng Fcitx5 (Chỉ có tác dụng khi vào Hyprland)
+#env = GTK_IM_MODULE,fcitx
+env = QT_IM_MODULE,fcitx
+
+env = XMODIFIERS,@im=fcitx
+
+# Thêm dòng này để hỗ trợ game và một số app khác mượt hơn
+env = SDL_IM_MODULE,fcitx
+
+# Tắt Ibus (đề phòng nó tự chạy) và bật Fcitx5
+exec-once = pkill ibus-daemon
+exec-once = ibus exit
+
+exec-once = fcitx5 -d --replace
+
+# Khởi động dịch vụ lưu mật khẩu (GNOME Keyring)
+env = GNOME_KEYRING_CONTROL,$XDG_RUNTIME_DIR/keyring/control
+exec-once = gnome-keyring-daemon --start --components=secrets
+
+# Dòng lệnh hình nền của bạn (bỏ dấu # ở đầu dòng dưới để kích hoạt sau khi test xong)
+
+# --- CẤU HÌNH BÀN PHÍM/CHUỘT CƠ BẢN ---
+input {
+    kb_layout = us
+    follow_mouse = 1
+}
+
+# --- PHÍM TẮT CƠ BẢN (ĐỂ BẠN KHÔNG BỊ KẸT) ---
+$mainMod = SUPER
+
+# Mở Terminal (Kitty) - Bấm Super + Q
+bind = $mainMod, Q, exec, kitty
+
+# Phím Super + R: Mở Rofi (Menu ứng dụng)
+# (Dùng theme type-4 như bạn đã chọn)
+bind = $mainMod, R, exec, rofi -show drun -theme ~/.config/rofi/launchers/type-4/style-1.rasi
+
+# Phím Super + N: Mở SwayNC (Thông báo & Widget phụ)
+bind = $mainMod, N, exec, swaync-client -t -sw
+
+# Phím Super + S: Mở cài đặt HyprPanel nhanh (đỡ phải click chuột)
+bind = $mainMod, S, exec, hyprpanel toggleWindow settings-dialog
+
+# Thoát Hyprland (Về màn hình đăng nhập) - Bấm Super + M
+bind = $mainMod, M, exit
+
+# Khóa màn hình Hyprland
+# Bấm Super + L để khóa màn hình
+bind = $mainMod, L, exec, hyprlock
+
+# Đóng cửa sổ đang chọn - Bấm Super + C
+bind = $mainMod, C, killactive
+
+# Phím Super + F để bật/tắt chế độ Toàn màn hình
+bind = $mainMod, F, fullscreen, 1
+
+# --- QUAN TRỌNG: PHÍM TẮT RELOAD VIDEO ---
+# Khi bạn chỉnh màu trong Settings xong, swww sẽ che mất video. 
+# Ấn phím này để gọi video quay lại.
+bind = $mainMod, W, exec, mpvpaper -o "no-audio --loop" '*' /home/iluvtkl/Downloads/live-wallpaper/cartethyia-song-of-the-crystal-city.3840x2160.mp4
+
+# --- DI CHUYỂN SỰ TẬP TRUNG (FOCUS) ---
+# Dùng Super + Phím mũi tên để chọn cửa sổ bên cạnh
+bind = $mainMod, left, movefocus, l
+bind = $mainMod, right, movefocus, r
+bind = $mainMod, up, movefocus, u
+bind = $mainMod, down, movefocus, d
+
+# --- CHUYỂN CỬA SỔ NHANH (ALT-TAB STYLE) ---
+# Bấm Super + Tab để chuyển sang cửa sổ tiếp theo
+bind = $mainMod, Tab, cyclenext,
+
+# Đưa cửa sổ vừa chọn lên trên cùng (để nó không bị che)
+bind = $mainMod, Tab, bringactivetotop,
+
+# --- ĐỔI CHỖ CỬA SỔ (MOVE WINDOW) ---
+# Dùng Super + Shift + Phím mũi tên để đẩy cửa sổ đi chỗ khác
+bind = $mainMod SHIFT, left, movewindow, l
+bind = $mainMod SHIFT, right, movewindow, r
+bind = $mainMod SHIFT, up, movewindow, u
+bind = $mainMod SHIFT, down, movewindow, d
+
+# --- BẬT 1 SỐ CỬA ỨNG DỤNG QUAN TRỌNG ---
+bind = $mainMod, B, exec, google-chrome-stable --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime
+bind = $mainMod, V, exec, code
+bind = $mainMod, D, exec, discord --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime
+
+# --- PHÍM TẮT WORKSPACE (CHUYỂN ĐỔI) ---
+# Bấm Super + 1, 2, 3... để sang Workspace tương ứng
+bind = $mainMod, 1, workspace, 1
+cbind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+bind = $mainMod, 9, workspace, 9
+bind = $mainMod, 0, workspace, 10
+
+# --- PHÍM TẮT DI CHUYỂN CỬA SỔ SANG WORKSPACE ---
+# Bấm Super + Shift + 1, 2, 3... để ném cửa sổ đang chọn sang đó
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9
+bind = $mainMod SHIFT, 0, movetoworkspace, 10
+
+# --- CHỤP MÀN HÌNH (SCREENSHOT) ---
+
+# 1. Giống Windows Snipping Tool (Super + Shift + S)
+# Chụp vùng chọn và lưu vào Clipboard (để dán ngay vào Zalo/Facebook...)
+bind = $mainMod SHIFT, S, exec, grim -g "$(slurp)" - | wl-copy
+
+# 2. Giống nút PrintScreen (Chụp toàn màn hình)
+# Chụp toàn bộ màn hình và lưu vào Clipboard
+bind = , Print, exec, grim - | wl-copy
+
+# --- TẮT BLUR NHANH ---
+# Chưa hoạt động
+# Bật/Tắt chế độ trong suốt thông minh (Toggle)
+bind = $mainMod SHIFT, O, exec, ~/.config/hypr/scripts/toggle_opacity.sh
+
+# --- CẤU HÌNH PHÍM CHỨC NĂNG (FN KEYS) ---
+
+# 1. ÂM THANH (Volume)
+# binde = cho phép nhấn giữ phím để tăng/giảm liên tục
+binde = , XF86AudioRaiseVolume, exec, pamixer -i 5   # Tăng 5% âm lượng
+binde = , XF86AudioLowerVolume, exec, pamixer -d 5   # Giảm 5% âm lượng
+bind  = , XF86AudioMute, exec, pamixer -t            # Tắt/Bật tiếng loa
+bind  = , XF86AudioMicMute, exec, pamixer --default-source -t # Tắt/Bật Mic
+
+# 2. ĐỘ SÁNG MÀN HÌNH (Brightness)
+binde = , XF86MonBrightnessUp, exec, brightnessctl set 5%+   # Tăng 5% độ sáng
+binde = , XF86MonBrightnessDown, exec, brightnessctl set 5%- # Giảm 5% độ sáng
+
+# 3. ĐIỀU KHIỂN NHẠC (Media Control)
+bindl = , XF86AudioPlay, exec, playerctl play-pause   # Play/Pause
+bindl = , XF86AudioPause, exec, playerctl play-pause  # (Dự phòng)
+bind = , XF86AudioNext, exec, playerctl next         # Bài tiếp theo
+bind = , XF86AudioPrev, exec, playerctl previous     # Bài trước đó
+
+# 4. CÁC PHÍM KHÁC (Đặc trưng của LOQ/Lenovo)
+# Phím Airplane Mode (thường là F8)
+bind = , XF86RFKill, exec, rfkill toggle all
+
+# Phím Calculator (thường có trên bàn phím số)
+bind = , XF86Calculator, exec, gnome-calculator
+
+# --- WINDOWRULE ---
+windowrulev2 = opacity 1.0 override 0.9 override, class:^(google-chrome|google-chrome-stable)$
+windowrulev2 = opacity 0.95 override 0.95 override, class:^(code)$
+windowrulev2 = opacity 0.98 override 0.9 override, class:^(discord)$
+windowrulev2 = opacity 0.98 override 0.9 override, class:^(obsidian)$
+
+# --- FIX LAG BỘ GÕ ---
+# Dùng regex .*fcitx.* để bắt dính cả 'fcitx', 'fcitx5' hay 'org.fcitx.Fcitx5'
+windowrulev2 = noblur, class:^(.*fcitx.*)$
+windowrulev2 = noanim, class:^(.*fcitx.*)$
+
+# --- LAYERRULE ---
+layerrule = blur, swaync-control-center
+layerrule = blur, swaync-notification-window
+layerrule = ignorezero, swaync-control-center
+layerrule = ignorezero, swaync-notification-window

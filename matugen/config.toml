@@ -1,0 +1,5 @@
+[config]
+
+[templates.my_hyprpanel_theme]
+input_path = "~/.config/matugen/templates/hyprpanel.json"
+output_path = "~/.config/hyprpanel/themes/matugen_custom.json"

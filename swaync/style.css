@@ -1,0 +1,130 @@
+/* --- CAELESTIA STYLE THEME (VERIFIED) --- */
+
+/* 1. Cấu hình chung và Biến màu */
+* {
+    font-family: "JetBrainsMono Nerd Font", "Roboto", sans-serif;
+    font-weight: bold;
+}
+
+@define-color base-bg rgba(30, 30, 46, 0.65);    /* Nền chính (Catppuccin Base) */
+@define-color widget-bg rgba(49, 50, 68, 0.6);   /* Nền Widget (Surface0) */
+@define-color border-col rgba(137, 180, 250, 0.2); /* Viền xanh mờ */
+@define-color text-col #cdd6f4;
+@define-color accent-col #89b4fa;                /* Màu nhấn (Blue) */
+@define-color button-bg #45475a;                 /* Nền nút thường */
+
+/* 2. Khung tổng thể (Control Center) */
+.control-center {
+    background: @base-bg;
+    border-radius: 24px;       /* Bo góc chuẩn Caelestia */
+    border: 2px solid @border-col;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Đổ bóng sâu */
+    padding: 15px;
+    margin: 10px;
+}
+
+/* 3. Tiêu đề Dashboard */
+.widget-label { margin: 10px; }
+.widget-label > label { color: @text-col; font-size: 1.4rem; }
+
+/* 4. Các Widget con (Gom nhóm để đồng bộ giao diện) */
+.widget-buttons-grid, 
+.widget-mpris, 
+.widget-volume, 
+.widget-backlight, 
+.widget-dnd {
+    background-color: @widget-bg;
+    border-radius: 18px;
+    margin: 10px 0;    /* Tăng khoảng cách giữa các khối */
+    padding: 10px;
+}
+
+/* 5. Nút bấm chức năng (Wifi, BT, Reboot...) - Đã check kỹ selector */
+.widget-buttons-grid > flowbox > flowboxchild > button {
+    background: @button-bg;
+    color: @text-col;
+    border-radius: 14px; /* Bo góc nút */
+    margin: 4px;         /* Khoảng cách giữa các nút */
+    padding: 12px 0;     /* Độ cao nút */
+    min-width: 75px;     /* Độ rộng nút */
+    border: none;
+    box-shadow: none;
+}
+
+/* Hiệu ứng Hover */
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+    background: @accent-col;
+    color: #1e1e2e;
+    transition: all 0.2s ease;
+}
+
+/* 6. Thanh trượt (Volume & Brightness) */
+.widget-volume trough, 
+.widget-backlight trough {
+    background: #313244;
+    border-radius: 20px;
+    min-height: 8px;
+}
+.widget-volume highlight, 
+.widget-backlight highlight {
+    background: linear-gradient(90deg, @accent-col, #b4befe);
+    border-radius: 20px;
+}
+.widget-volume label, 
+.widget-backlight label { color: @text-col; }
+
+/* 7. Trình phát nhạc (MPRIS) */
+.widget-mpris { color: @text-col; }
+.widget-mpris > box > button { border-radius: 20px; } /* Nút Play/Pause */
+.widget-mpris > box > button:hover {
+    background-color: @accent-col;
+    color: #1e1e2e;
+}
+
+/* 8. Thông báo (Notification Rows) */
+.notification-row {
+    margin: 10px 0;
+    outline: none;
+}
+.notification {
+    background: rgba(30, 30, 46, 0.85); /* Đậm hơn nền một chút */
+    border-radius: 18px;
+    border: 1px solid #45475a;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+/* Xử lý các nút Action trong thông báo */
+.notification-default-action, .notification-action {
+    background: transparent;
+    color: @text-col;
+    border: none;
+}
+.notification-default-action:hover, .notification-action:hover {
+    background: #45475a;
+    border-radius: 12px;
+}
+
+/* Nút đóng thông báo */
+.close-button {
+    background: #f38ba8; /* Màu đỏ */
+    color: #1e1e2e;
+    border-radius: 100%; /* Hình tròn */
+    border: none;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+/* 9. Nút DND (Do Not Disturb) */
+.widget-dnd { margin-top: 5px; }
+.widget-dnd > switch {
+    background: #45475a;
+    border-radius: 12px;
+}
+.widget-dnd > switch:checked {
+    background: #f38ba8;
+    border: 1px solid #f38ba8;
+}
+.widget-dnd > switch slider {
+    background: @text-col;
+    border-radius: 12px;
+}

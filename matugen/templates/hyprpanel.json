@@ -1,0 +1,19 @@
+{
+    "theme.bar.buttons.style": "filled",
+    "theme.bar.buttons.radius": "15px",
+    "theme.bar.floating": true,
+    "theme.bar.outer_spacing": "10px",
+    "theme.bar.menus.background": "{{colors.surface_container.default.hex}}",
+    "theme.bar.menus.cards": "{{colors.surface.default.hex}}",
+    "theme.bar.menus.text": "{{colors.on_surface.default.hex}}",
+    "theme.bar.menus.buttons.default": "{{colors.primary.default.hex}}",
+    "theme.bar.menus.buttons.active": "{{colors.primary_container.default.hex}}",
+    "theme.bar.background": "{{colors.surface.default.hex}}",
+    "theme.bar.buttons.background": "{{colors.secondary_container.default.hex}}",
+    "theme.bar.buttons.text": "{{colors.on_secondary_container.default.hex}}",
+    "theme.bar.buttons.icon": "{{colors.on_secondary_container.default.hex}}",
+    "theme.bar.buttons.workspaces.active": "{{colors.primary.default.hex}}",
+    "theme.bar.buttons.workspaces.occupied": "{{colors.secondary.default.hex}}",
+    "theme.bar.buttons.workspaces.available": "{{colors.surface_bright.default.hex}}",
+    "theme.bar.buttons.workspaces.background": "{{colors.surface_container.default.hex}}"
+}
